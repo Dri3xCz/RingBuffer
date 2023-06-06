@@ -1,15 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RingBuffer;
+﻿namespace RingBuffer;
 
 class Program
 {
-    static void Main()
+    static int Main()
     {
         RingBufferInt myArray = new RingBufferInt(2);
         myArray.AddElement(5);
         myArray.AddElement(3);
         myArray.AddElement(2);
+
+        Console.WriteLine(myArray.GetLastElement()); 
+        Console.WriteLine(myArray.GetElementAtIndex(0));
+        Console.WriteLine(myArray.GetElementAtIndex(1));
+        myArray.DeleteElement();
+        Console.WriteLine(myArray.GetLastElement());
+        myArray.DeleteElement();
+        Console.WriteLine(myArray.GetLastElement());
+
+        return 0;
     }
 }
 
@@ -51,6 +59,16 @@ public class RingBufferInt
         localArray[currentWritePosition] = element;
 
         currentWritePosition = UpdatePosition(currentWritePosition);
+    }
+
+    public int GetLastElement()
+    {
+        return localArray[lastElementPosition];
+    }
+
+    public int GetElementAtIndex(int index)
+    {
+        return localArray[index];
     }
 
     private int UpdatePosition(int position)
