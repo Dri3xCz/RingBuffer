@@ -1,10 +1,10 @@
-﻿namespace RingBuffer;
+﻿namespace RingBufferNamespace;
 
 class Program
 {
     static int Main()
     {
-        RingBufferInt myArray = new RingBufferInt(2);
+        RingBuffer<int> myArray = new RingBuffer<int>(2);
         myArray.AddElement(5);
         myArray.AddElement(3);
         myArray.AddElement(2);
@@ -21,7 +21,7 @@ class Program
     }
 }
 
-public class RingBufferInt
+public class RingBuffer<T>
 {
     private int length;
 
@@ -30,23 +30,23 @@ public class RingBufferInt
         get { return length; }
     }
 
-    private int[] localArray;
+    private T[] localArray;
     private int currentWritePosition = 0;
     private int lastElementPosition = -1;
 
-    public RingBufferInt(int length)
+    public RingBuffer(int length)
     {
         this.length = length;
-        localArray = new int[length];
+        localArray = new T[length];
     }
 
     public void DeleteElement()
     {
-        localArray[lastElementPosition] = 0;
+        localArray[lastElementPosition] = default;
         lastElementPosition = UpdatePosition(lastElementPosition);
     }
 
-    public void AddElement(int element)
+    public void AddElement(T element)
     {   
         if (currentWritePosition == lastElementPosition)
         {
@@ -61,12 +61,12 @@ public class RingBufferInt
         currentWritePosition = UpdatePosition(currentWritePosition);
     }
 
-    public int GetLastElement()
+    public T GetLastElement()
     {
         return localArray[lastElementPosition];
     }
 
-    public int GetElementAtIndex(int index)
+    public T GetElementAtIndex(int index)
     {
         return localArray[index];
     }
